@@ -8,8 +8,6 @@ from django.dispatch import receiver
 
 class Profile(models.Model):
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-
     first = models.CharField(max_length=60)
     last = models.CharField(max_length=60)
 
@@ -18,23 +16,14 @@ class Profile(models.Model):
     gps_lat = models.CharField(blank=True,max_length=10)
     gps_long = models.CharField(blank=True,max_length=10)
 
+    lang = models.CharField(default="eng",max_length=5)
+
     village = models.CharField(blank=True,max_length=60)
     district = models.CharField(blank=True,max_length=60)
     region = models.CharField(blank=True,max_length=60)
 
     def __str__(self):
       return 'User: ' + self.first + ' : ' + self.nr
-
-
-
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
 
 
 

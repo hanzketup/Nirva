@@ -13,5 +13,4 @@ def smsIn(request):  #Handles incomming texts from /handler
         sms = newSms(sender, text)
         smsSorter(sms)
         return HttpResponse(status=200)
-
     return HttpResponse(status=400)

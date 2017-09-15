@@ -1,0 +1,37 @@
+{% extends 'dashBoard/base.html' %}
+{% block base-content %}
+
+<div class="home-wrap">
+
+<div class="home-content">
+  <h1>Offers</h1>
+  <div class="list">
+    <a href="/offers/new" class="list-add"><i class="fa fa-plus" aria-hidden="true"></i></a>
+<div class="list-item list-header">
+<p class="item-title">Name</p>
+<p class="item-active">Active</p>
+<p class="item-answers">Answers</p>
+</div>
+{% for i in offers %}
+<a href="#" class="list-item">
+<p class="item-title">{{i.name}}</p>
+<p class="item-active">{{i.active}}</p>
+<p class="item-answers"></p>
+</a>
+{% empty %}
+<div class="list-item">
+<p class="item-title">You have no offers!</p>
+<p class="item-active"></p>
+</div>
+{% endfor %}
+</div>
+</div>
+
+<aside>
+
+Sidebar
+
+</aside>
+
+</div>
+{% endblock %}

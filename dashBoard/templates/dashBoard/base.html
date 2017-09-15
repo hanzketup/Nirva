@@ -1,0 +1,37 @@
+{% extends 'core.html' %}
+{% block content %}
+{% load staticfiles %}
+
+<div class="header">
+
+<a href="/" class="title">Nirva</a>
+
+<div>
+<a href="/">Home</a>
+<a href="/offers">Offers</a>
+<a href="/interests">interests</a>
+<a href="/reports">Reports</a>
+<a href="/groups">Groups</a>
+<a href="/contact">Contact</a>
+</div>
+
+<a href="/logout">Hi {{user}}, Logout</a>
+
+</div>
+
+<div class="base-content">
+{% block base-content %}
+{% endblock %}
+</div>
+
+<script>
+var jumbo = document.getElementsByClassName('header')[0];
+var pattern = Trianglify({
+  height: jumbo.clientHeight,
+  width: jumbo.clientWidth + 100,
+  variance: "0.99",
+  x_colors: 'YlGn',
+  cell_size: 80
+});jumbo.style['background-image'] = 'url(' + pattern.png() + ')';
+</script>
+{% endblock %}

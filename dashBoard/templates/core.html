@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+
+<!-- Meta -->
+{% load staticfiles %}
+<title> {{title}} - Nirva</title>
+<link rel="icon" type="image/x-icon" href="{% static 'img/icon.png' %}">
+
+<meta name="description" content="{% block desc %}{% endblock %}">
+<!-- Theme color for chrome mobile -->
+<meta name="theme-color" content="#1abc9c">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+<!-- External -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/1.1.0/trianglify.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,700,500" rel="stylesheet"> 
+
+<!-- Local -->
+
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+{% block head %}   {% endblock %}
+
+</head>
+<body>
+{% block content %}
+
+{% endblock %}
+{% block tail %}   {% endblock %}
+</body>
+</html>

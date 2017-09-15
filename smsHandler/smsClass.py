@@ -1,8 +1,12 @@
+from django.core.exceptions import ObjectDoesNotExist
+
 import re
 import requests
 
-from userGroup import models
+from django.apps import apps
 from .models import smsLogger
+
+Profile = apps.get_model('userGroup', 'Profile')
 
 """
 
@@ -17,8 +21,12 @@ class newSms():
         self.message = message
         self.kw = (re.search(r'^(\S+)',message)).group(0)
 
-        self.user = models.Profile.objects.filter(nr=self.sender)
-        self.is_user = self.user.exists()
+        try:
+            self.user = Profile.objects.get(nr=self.sender)
+            self.is_user = True
+
+        except ObjectDoesNotExist:
+            self.is_user = False
 
         #standard values
         self.firstName = ""
@@ -29,7 +37,8 @@ class newSms():
         if self.is_user: #if the user is in the system
             self.firstName = self.user.first
             self.lastName = self.user.last
-            self.fullName = (self.user.first," ", self.user.last)
+            self.fullName = self.user.first + " " + self.user.last
+            self.lang = self.user.lang
 
 
     def respond(self, msg):

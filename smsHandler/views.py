@@ -6,10 +6,10 @@ from .smsFunc import *
 
 def smsIn(request):  #Handles incomming texts from /handler
 
-    sender = request.GET.get('msisdn', '')
-    text = request.GET.get('text', '')
+    sender = request.GET.get('msisdn', None)
+    text = request.GET.get('text', None)
 
-    if sender != '' and text != '':
+    if sender is not None and text is not None:
         sms = newSms(sender, text)
         smsSorter(sms)
         return HttpResponse(status=200)

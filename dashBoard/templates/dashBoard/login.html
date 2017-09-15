@@ -1,0 +1,26 @@
+{% extends 'core.html' %}
+{% block content %}
+
+<div class="login-wrap">
+
+  <form class="login" method="post" target="">
+    {% csrf_token %}
+    <h1>Nirva Login</h1>
+    <input type="text" name="usr" style="{{inborder}}" placeholder="Username"></input>
+    <input type="password" name="pwd" style="{{inborder}}" placeholder="Password"></input>
+    <button type="submit">Login</button>
+    <p>{{login_msg}}</p>
+  </form>
+
+</div>
+<script>
+var jumbo = document.getElementsByClassName('login-wrap')[0];
+var pattern = Trianglify({
+  height: jumbo.clientHeight,
+  width: jumbo.clientWidth + 100,
+  variance: "0.99",
+  x_colors: 'BuGn',
+  cell_size: 60
+});jumbo.style['background-image'] = 'url(' + pattern.png() + ')';
+</script>
+{% endblock %}

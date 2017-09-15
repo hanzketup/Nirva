@@ -13,5 +13,5 @@ def smsSorter(sms):  #handle and sort valid sms requests
         return sms.respond(lr.msg('nu', sms.lang))
 
 
-def Handlecommand(smsobj):
+def Handlecommand(sms):
     pass

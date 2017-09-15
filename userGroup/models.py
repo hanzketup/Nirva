@@ -2,10 +2,6 @@
 from __future__ import unicode_literals
 from django.db import models
 
-from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
 class Profile(models.Model):
 
     first = models.CharField(max_length=60)
@@ -29,4 +25,23 @@ class Profile(models.Model):
 
 
 class Group(models.Model):
-    pass
+
+   name = models.CharField(max_length=100)
+
+   contact = models.OneToOneField(Profile)
+
+   address = models.CharField(max_length=60)
+   village = models.CharField(max_length=60)
+   district = models.CharField(max_length=60)
+   region = models.CharField(max_length=60)
+
+   def __str__(self):
+       return self.name
+
+class interests(models.Model):
+
+    name = models.CharField(max_length=100)
+    profiles = models.ManyToManyField(Profile,blank=True)
+
+    def __str__(self):
+        return self.name

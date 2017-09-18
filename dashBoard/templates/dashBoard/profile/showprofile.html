@@ -1,0 +1,118 @@
+{% extends 'dashBoard/base.html' %}
+{% block base-content %}
+
+<div class="home-wrap">
+
+<div class="home-content">
+  <h1>view/edit Profile</h1>
+<form method="post" target="" class="row-list">
+  {% csrf_token %}
+  {% for i in profile %}
+
+  <input name="pk" style="display:none" value="{{i.pk}}"></input>
+
+  <div class="row">
+    <p style="flex-basis:10%;" class="required">First Name (60)</p>
+    <input name="first" style="flex-basis:90%;" value="{{i.first}}" required></input>
+  </div>
+
+  <div class="row">
+    <p style="flex-basis:10%;" class="required">Last Name (60)</p>
+    <input name="last" style="flex-basis:90%;" value="{{i.last}}" required></input>
+  </div>
+
+  <div class="row">
+    <p style="flex-basis:10%;" class="required">Number (30)</p>
+    <input name="nr" style="flex-basis:90%;" value="{{i.nr}}" required></input>
+  </div>
+
+  <div class="row">
+    <p style="flex-basis:10%;" class="required">Language (5)</p>
+    <input name="lang" style="flex-basis:90%;" value="{{i.lang}}" required></input>
+  </div>
+
+  <div class="row">
+    <p style="flex-basis:10%;">Village (60)</p>
+    <input name="village" style="flex-basis:90%;" value="{{i.village}}"></input>
+  </div>
+
+  <div class="row">
+    <p style="flex-basis:10%;">District (60)</p>
+    <input name="district" style="flex-basis:90%;" value="{{i.district}}"></input>
+  </div>
+
+  <div class="row">
+    <p style="flex-basis:10%;">Region (60)</p>
+    <input name="region" style="flex-basis:90%;" value="{{i.region}}"></input>
+  </div>
+
+  <div class="row">
+    <p style="flex-basis:10%;">GPS Latitude (10)</p>
+    <input name="gps_lat" style="flex-basis:90%;" value="{{i.gps_lat}}"></input>
+  </div>
+
+  <div class="row">
+    <p style="flex-basis:10%;">GPS Longitude (10)</p>
+    <input name="gps_long"  style="flex-basis:90%;" value="{{i.gps_long}}"></input>
+  </div>
+
+  <div class="submit-row">
+    <p>Make sure that all &nbsp<b>required</b>&nbsp rows are filled and under max length ( ) before submitting</p>
+    <button>Submit</button>
+  </div>
+  {% empty %} {# if no object is passed in, render an empty form #}
+  
+    <div class="row">
+      <p style="flex-basis:10%;" class="required">First Name (60)</p>
+      <input name="first" style="flex-basis:90%;" value="{{i.first}}" required></input>
+    </div>
+
+    <div class="row">
+      <p style="flex-basis:10%;" class="required">Last Name (60)</p>
+      <input name="last" style="flex-basis:90%;" value="{{i.last}}" required></input>
+    </div>
+
+    <div class="row">
+      <p style="flex-basis:10%;" class="required">Number (30)</p>
+      <input name="nr" style="flex-basis:90%;" value="{{i.nr}}" required></input>
+    </div>
+
+    <div class="row">
+      <p style="flex-basis:10%;" class="required">Language (5)</p>
+      <input name="lang" style="flex-basis:90%;" value="{{i.lang}}" required></input>
+    </div>
+
+    <div class="row">
+      <p style="flex-basis:10%;">Village (60)</p>
+      <input name="village" style="flex-basis:90%;" value="{{i.village}}"></input>
+    </div>
+
+    <div class="row">
+      <p style="flex-basis:10%;">District (60)</p>
+      <input name="district" style="flex-basis:90%;" value="{{i.district}}"></input>
+    </div>
+
+    <div class="row">
+      <p style="flex-basis:10%;">Region (60)</p>
+      <input name="region" style="flex-basis:90%;" value="{{i.region}}"></input>
+    </div>
+
+    <div class="row">
+      <p style="flex-basis:10%;">GPS Latitude (10)</p>
+      <input name="gps_lat" style="flex-basis:90%;" value="{{i.gps_lat}}"></input>
+    </div>
+
+    <div class="row">
+      <p style="flex-basis:10%;">GPS Longitude (10)</p>
+      <input name="gps_long"  style="flex-basis:90%;" value="{{i.gps_long}}"></input>
+    </div>
+
+    <div class="submit-row">
+      <p>Make sure that all &nbsp<b>required</b>&nbsp rows are filled and under max length ( ) before submitting</p>
+      <button>Submit</button>
+    </div>
+  {% endfor %}
+</form>
+</div>
+</div>
+{% endblock %}

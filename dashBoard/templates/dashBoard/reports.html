@@ -7,21 +7,24 @@
   <h1>Reports</h1>
   <div class="list">
 <div class="list-item list-header">
-<p class="item-title">Name</p>
-<p class="item-active">Active</p>
-<p class="item-answers">Answers</p>
+  <p style="flex-basis:5%;">Id</p>
+  <p style="flex-basis:65%;">Name</p>
+  <p style="flex-basis:15%;">Created</p>
+  <p style="flex-basis:15%;">Answers</p>
 </div>
 {% for i in reports %}
 <a href="#" class="list-item">
-<p class="item-title">{{i.name}}</p>
-<p class="item-active">{{i.active}}</p>
-<p class="item-answers"></p>
+<p style="flex-basis:5%;">{{i.pk}}</p>
+<p style="flex-basis:65%;">{{i.name}}</p>
+<p style="flex-basis:15%;">{{i.created}}</p>
+<p style="flex-basis:15%;">{{i.answers}}</p>
 </a>
 {% empty %}
 <div class="list-item">
-<p class="item-title">Nothing to display!</p>
-<p class="item-active"></p>
-<p class="item-answers"></p>
+  <p style="flex-basis:5%;"></p>
+  <p style="flex-basis:65%;">Nothing to display!</p>
+  <p style="flex-basis:15%;"></p>
+  <p style="flex-basis:15%;"></p>
 </div>
 {% endfor %}
 </div>

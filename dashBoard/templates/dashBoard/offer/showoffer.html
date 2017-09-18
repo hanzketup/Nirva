@@ -1,0 +1,139 @@
+{% extends 'dashBoard/base.html' %}
+{% block base-content %}
+
+<div class="home-wrap">
+
+<div class="home-content">
+  <h1>view/edit Offer</h1>
+<form method="post" target="" class="row-list">
+  {% csrf_token %}
+
+  <input name="pk" style="display:none" value="{{profile.pk}}"></input>
+
+  <div class="row">
+    <p style="flex-basis:10%;" class="required">Name (60)</p>
+    <input name="name" style="flex-basis:90%;" value="{{profile.name}}" required></input>
+  </div>
+
+  <div class="row">
+    <p style="flex-basis:10%;" class="required">Active (T/F)</p>
+    <input name="active" style="flex-basis:90%;" value="{{profile.active}}" required></input>
+    <small class="row-legend">Either True or False</small>
+  </div>
+
+  <div class="row">
+    <p style="flex-basis:10%;">Expiry (date)</p>
+    <input name="expiry" style="flex-basis:90%;" value="{{profile.expiry}}"></input>
+    <small class="row-legend">Defaults to 10days</small>
+  </div>
+
+  <div class="row">
+    <p style="flex-basis:10%;">Created</p>
+    <input style="flex-basis:90%;" value="{{profile.created}}" readonly></input>
+    <small class="row-legend">Not editable</small>
+  </div>
+
+  <div class="row row-msg">
+    <p style="flex-basis:10%;" class="required">Message</p>
+    <textarea id="ofr-msg" style="flex-basis:90%;" value="{{profile.message}}"></textarea>
+    <small id="ofr-msg-legend" class="row-legend"><span>160</span> Characters left</small>
+  </div>
+
+  <div class="row">
+    <p style="flex-basis:10%;">Unit</p>
+    <input style="flex-basis:90%;" value="{{profile.code}}"></input>
+    <small class="row-legend">eg: kg, packs, pallets, kits</small>
+  </div>
+
+  <div class="row">
+    <p style="flex-basis:10%;">Answers</p>
+    <input style="flex-basis:90%;" value="{{profile.answers.count}}" readonly></input>
+    <small class="row-legend">Not editable</small>
+  </div>
+
+  <div class="row">
+    <p style="flex-basis:10%;">Code</p>
+    <input style="flex-basis:90%;" value="{{profile.code}}" readonly></input>
+    <small class="row-legend">Auto Generated</small>
+  </div>
+
+
+  <div class="submit-row">
+    <p>Make sure that all &nbsp<b>required</b>&nbsp rows are filled and under max length ( ) before submitting</p>
+    <button>Submit</button>
+  </div>
+</form>
+
+<div class="offer-reports">
+
+  <h1>Reports</h1>
+
+  <div class="list">
+<div class="list-item list-header">
+  <p style="flex-basis:10%;">ID</p>
+  <p style="flex-basis:50%;">Name</p>
+  <p style="flex-basis:20%;">Date Created</p>
+  <p style="flex-basis:20%;">Answers</p>
+</div>
+{% for i in profile.reports.all %}
+<a href="/reports/{{i.pk}}" class="list-item">
+<p style="flex-basis:10%;">{{i.pk}}</p>
+<p style="flex-basis:50%;">{{i.name}}</p>
+<p style="flex-basis:20%;">{{i.created}}</p>
+<p style="flex-basis:20%;">{{i.answers}}</p>
+</a>
+{% empty %}
+<div class="list-item">
+  <p style="flex-basis:10%;"></p>
+  <p style="flex-basis:50%;">Nothing found!</p>
+  <p style="flex-basis:20%;"></p>
+  <p style="flex-basis:20%;"></p>
+</div>
+{% endfor %}
+</div>
+
+</div>
+
+
+<div class="user-selector">
+<h1>Select Users</h1>
+
+<div class="filter list-item">
+  <p style="flex-basis:4%;"><input type="checkbox"></input></p>
+  <p style="flex-basis:16%;"><span>Name</span><input placeholder="All"></input></p>
+  <p style="flex-basis:16%;"><span>Village</span><input placeholder="All"></input></p>
+  <p style="flex-basis:16%;"><span>District</span><input placeholder="All"></input></p>
+  <p style="flex-basis:16%;"><span>Region</span><input placeholder="All"></input></p>
+  <p style="flex-basis:16%;"><span>Language</span><input placeholder="All"></input></p>
+  <p style="flex-basis:16%;"><span>interests</span><input placeholder="All"></input></p>
+</div>
+
+<div class="list">
+
+  {% for i in users %}
+  <div class="list-item selector-item" data-pk="{{i.pk}}" data-name="{{i.first}} {{i.last}}" data-village="{{i.village}}" data-district="{{i.district}}" data-region="{{i.region}}" data-lang="{{i.lang}}">
+    <p style="flex-basis:4%;"><input type="checkbox"></input></p>
+    <p style="flex-basis:16%;">{{i.first}} {{i.last}}</p>
+    <p style="flex-basis:16%;">{{i.village}}</p>
+    <p style="flex-basis:16%;">{{i.district}}</p>
+    <p style="flex-basis:16%;">{{i.region}}</p>
+    <p style="flex-basis:16%;">{{i.lang}}</p>
+    <p style="flex-basis:16%;">{{i.interests.all}}</p>
+  </div>
+  {% endfor %}
+
+</div>
+</div>
+
+
+</div>
+</div>
+<script>
+$('#ofr-msg').bind('input propertychange',function countmsg() {
+console.log(this)
+$('#ofr-msg-legend span').text(160 - this.value.length)
+if(this.value.length > 160){$('#ofr-msg-legend span').css('color', 'red')}
+else{$('#ofr-msg-legend span').css('color', '#333')}
+});
+</script>
+{% endblock %}

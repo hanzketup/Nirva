@@ -7,10 +7,13 @@ from django.apps import apps
 
 Profile = apps.get_model('userGroup', 'Profile')
 Group = apps.get_model('userGroup', 'Group')
+interest = apps.get_model('userGroup', 'interest')
 
 DashUser = apps.get_model('dashBoard', 'DashUser')
 Offer = apps.get_model('dashBoard', 'Offer')
 DashUser = apps.get_model('dashBoard', 'DashUser')
+
+Report = apps.get_model('reports', 'report')
 
 def Home(request):
     if request.user.is_authenticated():
@@ -72,12 +75,13 @@ def offers(request):
     else:
         return redirect('/')
 
+
 def interests(request):
     if request.user.is_authenticated():
-        interests = DashUser.objects.get(user__pk=request.user.pk).offers.all()
+        inter = interest.objects.all()
         dic = {
             "title":"interests",
-            "interests":interests,
+            "interests":inter,
 
         }
 
@@ -87,10 +91,10 @@ def interests(request):
 
 def reports(request):
     if request.user.is_authenticated():
-        reports = DashUser.objects.get(user__pk=request.user.pk).offers.all()
+        report = DashUser.objects.get(user__pk=request.user.pk).reports.all()
         dic = {
             "title":"Reports",
-            "reports":reports,
+            "reports":report,
 
         }
 
@@ -112,4 +116,23 @@ def groups(request):
         return redirect('/')
 
 def contact(request):
-    return
+    if request.user.is_authenticated():
+        dic = {
+            "title":"Contact",
+        }
+        return render(request,'dashBoard/contact.html', dic)
+    else:
+        return redirect('/')
+
+def newoffer(request):
+    if request.user.is_authenticated():
+        if request.method == "GET":
+            dic = {
+                "title": "new offer",
+            }
+            return render(request, 'dashBoard/newoffer.html', dic)
+
+        if request.method == "POST":
+            pass
+    else:
+        redirect('/')

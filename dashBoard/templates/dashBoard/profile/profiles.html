@@ -1,0 +1,31 @@
+{% extends 'dashBoard/base.html' %}
+{% block base-content %}
+
+<div class="home-wrap">
+
+<div class="home-content">
+  <h1>Profiles</h1>
+  <div class="list">
+    <a href="/profiles/new" class="list-add"><i class="fa fa-plus" aria-hidden="true"></i></a>
+<div class="list-item list-header">
+  <p style="flex-basis:10%;">ID</p>
+  <p style="flex-basis:70%;">Full name</p>
+  <p style="flex-basis:20%;">Phone nr</p>
+</div>
+{% for i in profiles %}
+<a href="/profiles/{{i.pk}}" class="list-item">
+<p style="flex-basis:10%;">{{i.pk}}</p>
+<p style="flex-basis:70%;">{{i.first}} {{i.last}}</p>
+<p style="flex-basis:20%;">{{i.nr}}</p>
+</a>
+{% empty %}
+<div class="list-item">
+  <p style="flex-basis:10%;"></p>
+  <p style="flex-basis:70%;">Nothing found!</p>
+  <p style="flex-basis:20%;"></p>
+</div>
+{% endfor %}
+</div>
+</div>
+</div>
+{% endblock %}

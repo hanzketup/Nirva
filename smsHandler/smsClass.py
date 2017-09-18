@@ -6,6 +6,8 @@ import requests
 from django.apps import apps
 from .models import smsLogger
 
+from .dispatcher import dispatch
+
 Profile = apps.get_model('userGroup', 'Profile')
 
 """
@@ -42,13 +44,8 @@ class newSms():
 
 
     def respond(self, msg):
-        r = requests.post('https://rest.nexmo.com/sms/json',
-                          data={"to": self.sender,
-                                "from": "46769436405",
-                                "text": msg,
-                                "api_key": "76e3575b",
-                                "api_secret": "2ca2ac5f9a6520ff", }, timeout=5)
-        self.Log(msg, r.text)
+        r = dispatch(self.nr, msg)
+        self.Log(msg, r)
 
 
     def Log(self, message, response):

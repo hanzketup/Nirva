@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+from __future__ import unicode_literals, absolute_import
 
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login,logout
+import json
+
+from django.shortcuts import render, redirect, HttpResponse
+from django.contrib.auth import authenticate, login, logout
 from django.apps import apps
+
+from smsHandler import dispatcher
 
 Profile = apps.get_model('userGroup', 'Profile')
 Group = apps.get_model('userGroup', 'Group')
@@ -14,21 +18,30 @@ Offer = apps.get_model('dashBoard', 'Offer')
 DashUser = apps.get_model('dashBoard', 'DashUser')
 
 Report = apps.get_model('reports', 'report')
+Log = apps.get_model('smsHandler', 'Log')
+
 
 def Home(request):
     if request.user.is_authenticated():
 
-        offers = DashUser.objects.get(user__pk=request.user.pk).offers.all()
+        offers = Offer.objects.all()
+
+        for i in list(offers):  # Clean out non-completed offers before rendering
+            if i.name == '':
+                i.delete()
+            print(i)
+
+        offers = Offer.objects.all()
+
         dic = {
             'title': 'Home',
-            'user':request.user,
-            'offers':offers,
+            'user': request.user,
+            'offers': offers,
 
         }
         return render(request, 'dashBoard/home.html', dic)
     else:
         return redirect('/login')
-
 
 
 def loginV(request):
@@ -38,7 +51,7 @@ def loginV(request):
             return redirect('/')
         else:
             dic = {
-                "title":"Login",
+                "title": "Login",
             }
             return render(request, 'dashBoard/login.html', dic)
 
@@ -51,88 +64,63 @@ def loginV(request):
             return redirect('/')
         else:
             dic = {
-                'title':'login',
+                'title': 'login',
                 'inborder': 'border-bottom: 4px solid #c0392b;',
-                'login_msg':'Username/Password incorrect',
+                'login_msg': 'Username/Password incorrect',
 
             }
             return render(request, 'dashBoard/login.html', dic)
+
 
 def logoutV(request):
     logout(request)
     return redirect('/login')
 
-def offers(request):
+
+def dispatch(request):
     if request.user.is_authenticated():
-        offers = DashUser.objects.get(user__pk=request.user.pk).offers.all()
-        dic = {
-            "title":"Offers",
-            "offers":offers,
+        if request.method == 'GET':
+            q = Profile.objects.all()
 
-        }
-
-        return render(request,'dashBoard/offers.html', dic)
-    else:
-        return redirect('/')
-
-
-def interests(request):
-    if request.user.is_authenticated():
-        inter = interest.objects.all()
-        dic = {
-            "title":"interests",
-            "interests":inter,
-
-        }
-
-        return render(request,'dashBoard/interests.html', dic)
-    else:
-        return redirect('/')
-
-def reports(request):
-    if request.user.is_authenticated():
-        report = DashUser.objects.get(user__pk=request.user.pk).reports.all()
-        dic = {
-            "title":"Reports",
-            "reports":report,
-
-        }
-
-        return render(request,'dashBoard/reports.html', dic)
-    else:
-        return redirect('/')
-
-def groups(request):
-    if request.user.is_authenticated():
-        groups = Group.objects.all()
-        dic = {
-            "title":"Groups",
-            "groups":groups,
-
-        }
-
-        return render(request,'dashBoard/groups.html', dic)
-    else:
-        return redirect('/')
-
-def contact(request):
-    if request.user.is_authenticated():
-        dic = {
-            "title":"Contact",
-        }
-        return render(request,'dashBoard/contact.html', dic)
-    else:
-        return redirect('/')
-
-def newoffer(request):
-    if request.user.is_authenticated():
-        if request.method == "GET":
             dic = {
-                "title": "new offer",
+                'title': 'Send Message',
+                'users': q,
             }
-            return render(request, 'dashBoard/newoffer.html', dic)
+            return render(request, 'dashBoard/dispatcher/dispatch.html', dic)
 
-        if request.method == "POST":
-            pass
-    else:
-        redirect('/')
+        if request.method == 'POST':
+            try:
+                reqdata = json.loads(request.body)
+                msg = reqdata['msg']
+                numlist = []
+
+                for i in reqdata['pk']:
+                    r = Profile.objects.get(pk=str(i)).nr
+                    numlist.append(str(r))
+
+            except:
+                return HttpResponse("Something went wrong, message failed")
+
+            print(numlist)
+            dispatcher.mass(numlist, msg)
+            return HttpResponse("Message sent!")
+
+
+def log(request):
+    if request.user.is_authenticated():
+        logs = Log.objects.all()
+
+        dic = {
+            'title': 'Logger',
+            'logs':logs,
+        }
+        return render(request, 'dashBoard/dispatcher/log.html', dic)
+
+
+def mock(request):
+    if request.user.is_authenticated():
+
+        dic = {
+            'title': 'Mock',
+        }
+        return render(request, 'dashBoard/mock.html', dic)

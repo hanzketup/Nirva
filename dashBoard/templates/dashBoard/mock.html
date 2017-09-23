@@ -1,0 +1,22 @@
+{% extends 'dashBoard/base.html' %}
+{% block base-content %}
+{% load staticfiles %}
+
+<div class="home-wrap">
+<div class="home-content">
+<h1>Send a message to the service</h1>
+
+<div class="phone">
+<div class="messages">
+
+</div>
+<div class="input-box">
+<input id="num" type="text" placeholder="input message number"></input>
+<textarea id="msg" rows="3" placeholder="Type your message here"></textarea>
+</div>
+</div>
+
+</div>
+</div>
+<script src="{% static 'js/mock.js' %}"></script>
+{% endblock %}

@@ -1,72 +1,85 @@
 {% extends 'dashBoard/base.html' %}
 {% block base-content %}
-
+{% load staticfiles %}
 <div class="home-wrap">
 
 <div class="home-content">
   <h1>view/edit Offer</h1>
-<form method="post" target="" class="row-list">
+<form method="post" target="" class="row-list" id="offerform">
   {% csrf_token %}
 
-  <input name="pk" style="display:none" value="{{profile.pk}}"></input>
+  <input name="pk" style="display:none" value="{{offer.pk}}"></input>
 
   <div class="row">
     <p style="flex-basis:10%;" class="required">Name (60)</p>
-    <input name="name" style="flex-basis:90%;" value="{{profile.name}}" required></input>
+    <input type="text" name="name" style="flex-basis:90%;" value="{{offer.name}}" required></input>
+    <small class="row-legend">Offers without names will NOT be saved!</small>
   </div>
 
   <div class="row">
     <p style="flex-basis:10%;" class="required">Active (T/F)</p>
-    <input name="active" style="flex-basis:90%;" value="{{profile.active}}" required></input>
-    <small class="row-legend">Either True or False</small>
+    <select name="active" style="flex-basis:90%;">
+      <option value="1" {%if offer.active%}selected{%endif%}>True</option>
+      <option value="0"{%if offer.active%}{%else%}selected{%endif%}>False</option>
+    </select>
+    <small class="row-legend">True or False</small>
   </div>
 
   <div class="row">
-    <p style="flex-basis:10%;">Expiry (date)</p>
-    <input name="expiry" style="flex-basis:90%;" value="{{profile.expiry}}"></input>
-    <small class="row-legend">Defaults to 10days</small>
+    <p style="flex-basis:10%;">Expiry in (days)</p>
+    <input type="text" name="expiry" style="flex-basis:90%;" value="{{offer.expiry_in}}"></input>
+    <small class="row-legend">Defaults to 10 days</small>
   </div>
 
   <div class="row">
     <p style="flex-basis:10%;">Created</p>
-    <input style="flex-basis:90%;" value="{{profile.created}}" readonly></input>
+    <input type="text" style="flex-basis:90%;" value="{{offer.created}}" readonly></input>
     <small class="row-legend">Not editable</small>
   </div>
 
   <div class="row row-msg">
     <p style="flex-basis:10%;" class="required">Message</p>
-    <textarea id="ofr-msg" style="flex-basis:90%;" value="{{profile.message}}"></textarea>
-    <small id="ofr-msg-legend" class="row-legend"><span>160</span> Characters left</small>
+    <textarea id="ofr-msg" name="message" form="offerform" style="flex-basis:90%;" required>{{offer.message}}</textarea>
+    <small id="ofr-msg-legend" class="row-legend"><span>100</span> Characters left. Ascii only</small>
   </div>
 
   <div class="row">
     <p style="flex-basis:10%;">Unit</p>
-    <input style="flex-basis:90%;" value="{{profile.code}}"></input>
+    <input type="text" name="unit" style="flex-basis:90%;" value="{{offer.unit}}"></input>
     <small class="row-legend">eg: kg, packs, pallets, kits</small>
   </div>
 
   <div class="row">
     <p style="flex-basis:10%;">Answers</p>
-    <input style="flex-basis:90%;" value="{{profile.answers.count}}" readonly></input>
+    <input type="text" style="flex-basis:90%;" value="{{offer.answers.count}}" readonly></input>
     <small class="row-legend">Not editable</small>
   </div>
 
   <div class="row">
     <p style="flex-basis:10%;">Code</p>
-    <input style="flex-basis:90%;" value="{{profile.code}}" readonly></input>
+    <input type="text" style="flex-basis:90%;" value="{{offer.code}}" readonly></input>
     <small class="row-legend">Auto Generated</small>
   </div>
 
+  <div class="row row-msg">
+    <p style="flex-basis:10%;" class="required">Generated</p>
+    <textarea style="flex-basis:90%;" readonly>{{offer.gen_message}}</textarea>
+    <small class="row-legend">Not editable. This will be sent out to members!</small>
+  </div>
 
-  <div class="submit-row">
+  <div class="submit-row" style="z-index:10;">
     <p>Make sure that all &nbsp<b>required</b>&nbsp rows are filled and under max length ( ) before submitting</p>
-    <button>Submit</button>
+      <a onclick="goToPrompt('/offers/{{offer.pk}}/remove', 'Really delete?')" class="row-btn">Remove</a>
+    <button type="submit">Submit</button>
   </div>
 </form>
 
 <div class="offer-reports">
 
-  <h1>Reports</h1>
+  <div class="title-row">
+    <h1>Reports</h1>
+    <a class="title-button">Generate report</a>
+  </div>
 
   <div class="list">
 <div class="list-item list-header">
@@ -95,30 +108,35 @@
 </div>
 
 
-<div class="user-selector">
-<h1>Select Users</h1>
+<div class="selector">
+
+  <div class="title-row">
+    <h1>Select Users</h1>
+    <p><span id="selected-counter">0</span>&nbsp Users selected</p>
+    <a class="title-button" id="savesel">Save selection</a>
+  </div>
 
 <div class="filter list-item">
-  <p style="flex-basis:4%;"><input type="checkbox"></input></p>
-  <p style="flex-basis:16%;"><span>Name</span><input placeholder="All"></input></p>
-  <p style="flex-basis:16%;"><span>Village</span><input placeholder="All"></input></p>
-  <p style="flex-basis:16%;"><span>District</span><input placeholder="All"></input></p>
-  <p style="flex-basis:16%;"><span>Region</span><input placeholder="All"></input></p>
-  <p style="flex-basis:16%;"><span>Language</span><input placeholder="All"></input></p>
-  <p style="flex-basis:16%;"><span>interests</span><input placeholder="All"></input></p>
+  <p style="flex-basis:4%;"><input id="checkall" type="checkbox"></input></p>
+  <p style="flex-basis:16%;"><span>Name</span><input id="Name" type="text" placeholder="All"></input></p>
+  <p style="flex-basis:16%;"><span>Village</span><input id="Village" type="text" placeholder="All"></input></p>
+  <p style="flex-basis:16%;"><span>District</span><input id="District" type="text" placeholder="All"></input></p>
+  <p style="flex-basis:16%;"><span>Region</span><input id="Region" type="text" placeholder="All"></input></p>
+  <p style="flex-basis:16%;"><span>Language</span><input id="Language" type="text" placeholder="All"></input></p>
+  <p style="flex-basis:16%;"><span>interests</span><input id="Interests" type="text" placeholder="All"></input></p>
 </div>
 
 <div class="list">
 
   {% for i in users %}
-  <div class="list-item selector-item" data-pk="{{i.pk}}" data-name="{{i.first}} {{i.last}}" data-village="{{i.village}}" data-district="{{i.district}}" data-region="{{i.region}}" data-lang="{{i.lang}}">
-    <p style="flex-basis:4%;"><input type="checkbox"></input></p>
-    <p style="flex-basis:16%;">{{i.first}} {{i.last}}</p>
-    <p style="flex-basis:16%;">{{i.village}}</p>
-    <p style="flex-basis:16%;">{{i.district}}</p>
-    <p style="flex-basis:16%;">{{i.region}}</p>
-    <p style="flex-basis:16%;">{{i.lang}}</p>
-    <p style="flex-basis:16%;">{{i.interests.all}}</p>
+  <div class="list-item selector-item" data-pk="{{i.pk}}" data-name="{{i.first|lower}} {{i.last|lower}}" data-village="{{i.village|lower}}" data-district="{{i.district|lower}}" data-region="{{i.region|lower}}" data-lang="{{i.lang|lower}}" data-interests="{% for e in i.interests.all %}{{e|lower}} | {% endfor %}">
+    <p style="flex-basis:4%;"><input type="checkbox" unchecked class="selector-check" data-pk={{i.pk}}></input></p>
+    <p style="flex-basis:16%;">{{i.first|lower}} {{i.last|lower}}</p>
+    <p style="flex-basis:16%;">{{i.village|lower}}</p>
+    <p style="flex-basis:16%;">{{i.district|lower}}</p>
+    <p style="flex-basis:16%;">{{i.region|lower}}</p>
+    <p style="flex-basis:16%;">{{i.lang|lower}}</p>
+    <p style="flex-basis:16%;">{% for e in i.interests.all %}{{e|lower}} | {% endfor %}</p>
   </div>
   {% endfor %}
 
@@ -128,12 +146,6 @@
 
 </div>
 </div>
-<script>
-$('#ofr-msg').bind('input propertychange',function countmsg() {
-console.log(this)
-$('#ofr-msg-legend span').text(160 - this.value.length)
-if(this.value.length > 160){$('#ofr-msg-legend span').css('color', 'red')}
-else{$('#ofr-msg-legend span').css('color', '#333')}
-});
-</script>
+<script src="{% static 'js/filter.js' %}"></script>
+<script src="{% static 'js/offer.js' %}"></script>
 {% endblock %}

@@ -1,7 +1,7 @@
 from django import forms
 
-class ProfileForm(forms.Form):
 
+class ProfileForm(forms.Form):
     pk = forms.CharField(max_length=4, required=False)
 
     first = forms.CharField(max_length=60)
@@ -21,7 +21,26 @@ class ProfileForm(forms.Form):
 
 class OfferForm(forms.Form):
 
-    name = forms.CharField(max_length=60)
-    active = forms.BooleanField()
+    pk = forms.CharField(max_length=10)
 
-    expiry = forms.DateTimeField()
+    name = forms.CharField(max_length=60)
+    active = forms.CharField(max_length=10)
+
+    expiry = forms.CharField(required=False)
+    message = forms.CharField(max_length=300,required=False)
+    unit = forms.CharField(max_length=50, required=False)
+
+
+class InterestForm(forms.Form):
+
+    pk = forms.CharField(max_length=10)
+    name = forms.CharField(max_length=60)
+
+
+class GroupForm(forms.Form):
+    pk = forms.CharField(max_length=4, required=False)
+
+    address = forms.CharField(max_length=60, required=False)
+    village = forms.CharField(max_length=60, required=False)
+    district = forms.CharField(max_length=60, required=False)
+    region = forms.CharField(max_length=60, required=False)

@@ -6,25 +6,26 @@
 <div class="home-content">
   <h1>Groups</h1>
   <div class="list">
+    <a href="/groups/new" class="list-add"><i class="fa fa-plus" aria-hidden="true"></i></a>
 <div class="list-item list-header">
-<p style="flex-basis:40%;">Village / Name</p>
+<p style="flex-basis:50%;">Village / Name</p>
 <p style="flex-basis:15%;">District</p>
 <p style="flex-basis:15%;">Region</p>
-<p style="flex-basis:30%;">Contact Person</p>
+<p style="flex-basis:20%;">Contact Person</p>
 </div>
 {% for i in groups %}
-<a href="#" class="list-item">
-<p style="flex-basis:40%;">{{i.name}}</p>
+<a href="/groups/{{i.pk}}" class="list-item">
+<p style="flex-basis:50%;">{{i.name}}</p>
 <p style="flex-basis:15%;">{{i.district}}</p>
 <p style="flex-basis:15%;">{{i.region}}</p>
-<p style="flex-basis:30%;">{{i.contact.first}} {{i.contact.last}} - {{i.contact.nr}}</p>
+<p style="flex-basis:20%;">{{i.contact.first}}</p>
 </a>
 {% empty %}
 <div class="list-item">
-  <p style="flex-basis:40%;">Nothing found!</p>
+  <p style="flex-basis:50%;">Nothing found!</p>
   <p style="flex-basis:15%;"></p>
   <p style="flex-basis:15%;"></p>
-  <p style="flex-basis:30%;"></p>
+  <p style="flex-basis:20%;"></p>
 </div>
 {% endfor %}
 </div>

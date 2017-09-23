@@ -2,35 +2,53 @@
 {% block base-content %}
 
 <div class="home-wrap">
-
 <div class="home-content">
   <h1>Offers</h1>
   <div class="list">
     <a href="/offers/new" class="list-add"><i class="fa fa-plus" aria-hidden="true"></i></a>
 <div class="list-item list-header">
-  <p style="flex-basis:70%;">Name</p>
-  <p style="flex-basis:15%;">Active</p>
-  <p style="flex-basis:15%;">Answers</p>
+<p style="flex-basis:70%;">Name</p>
+<p style="flex-basis:15%;">Active</p>
+<p style="flex-basis:15%;">Answers</p>
 </div>
 {% for i in offers %}
-<a href="#" class="list-item">
+<a href="/offers/{{i.pk}}" class="list-item">
 <p style="flex-basis:70%;">{{i.name}}</p>
 <p style="flex-basis:15%;">{{i.active}}</p>
 <p style="flex-basis:15%;">{{i.answers.count}}</p>
 </a>
 {% empty %}
-<div class="list-item">
-  <p style="flex-basis:70%;">Nothing to display!</p>
-  <p style="flex-basis:15%;"></p>
-  <p style="flex-basis:15%;"></p>
-</div>
+<a href="#" class="list-item">
+<p style="flex-basis:70%;">Nothing to display!</p>
+<p style="flex-basis:15%;"></p>
+<p style="flex-basis:15%;"></p>
+</a>
 {% endfor %}
 </div>
 </div>
 
 <aside>
 
-Sidebar
+<div class="quick">
+  <h1>Quick access</h1>
+  <a href="/offers/new">New Offer</a>
+  <a href="/interests/new">New Interest</a>
+  <a href="/groups/new">New Group</a>
+  <a href="/profiles/new">New Member</a>
+</div>
+
+<div class="quick dispatcher">
+  <h1>Dispatcher</h1>
+  <a href="/dispatcher">Send message</a>
+    <a href="/mock">Mock sender</a>
+  <a href="/log">Logger</a>
+</div>
+
+<div class="quick event">
+  <h1>Events</h1>
+  <a href="#">Error log</a>
+  <a href="#">Events log</a>
+</div>
 
 </aside>
 

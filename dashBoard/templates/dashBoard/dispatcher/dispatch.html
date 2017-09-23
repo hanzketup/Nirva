@@ -1,0 +1,62 @@
+{% extends 'dashBoard/base.html' %}
+{% block base-content %}
+{% load staticfiles %}
+<div class="home-wrap">
+
+<div class="home-content">
+  <h1>Send Message</h1>
+
+<div class="row-list">
+  <div class="row row-msg">
+    <p style="flex-basis:10%;" class="required">Message</p>
+    <textarea rows="4" id="ofr-msg" name="message" form="offerform" style="flex-basis:90%;" required></textarea>
+    <small id="ofr-msg-legend" class="row-legend"><span>160</span> Characters left. Ascii only</small>
+  </div>
+
+  <div class="submit-row" style="z-index:10;">
+    <p>Make sure that all &nbsp<b>required</b>&nbsp rows are filled and under max length ( ) before submitting</p>
+    <button id="dispatch">Dispatch</button>
+  </div>
+</div>
+
+
+<div class="selector">
+
+  <div class="title-row">
+    <h1>Select Recipients</h1>
+    <p><span id="selected-counter">0</span>&nbsp Users selected</p>
+    <p>Select recipients before dispatching!</p>
+  </div>
+
+<div class="filter list-item">
+  <p style="flex-basis:4%;"><input id="checkall" type="checkbox"></input></p>
+  <p style="flex-basis:16%;"><span>Name</span><input id="Name" type="text" placeholder="All"></input></p>
+  <p style="flex-basis:16%;"><span>Village</span><input id="Village" type="text" placeholder="All"></input></p>
+  <p style="flex-basis:16%;"><span>District</span><input id="District" type="text" placeholder="All"></input></p>
+  <p style="flex-basis:16%;"><span>Region</span><input id="Region" type="text" placeholder="All"></input></p>
+  <p style="flex-basis:16%;"><span>Language</span><input id="Language" type="text" placeholder="All"></input></p>
+  <p style="flex-basis:16%;"><span>interests</span><input id="Interests" type="text" placeholder="All"></input></p>
+</div>
+
+<div class="list">
+
+  {% for i in users %}
+  <div class="list-item selector-item" data-pk="{{i.pk}}" data-name="{{i.first|lower}} {{i.last|lower}}" data-village="{{i.village|lower}}" data-district="{{i.district|lower}}" data-region="{{i.region|lower}}" data-lang="{{i.lang|lower}}" data-interests="{% for e in i.interests.all %}{{e|lower}} | {% endfor %}">
+    <p style="flex-basis:4%;"><input type="checkbox" unchecked class="selector-check" data-pk={{i.pk}}></input></p>
+    <p style="flex-basis:16%;">{{i.first|lower}} {{i.last|lower}}</p>
+    <p style="flex-basis:16%;">{{i.village|lower}}</p>
+    <p style="flex-basis:16%;">{{i.district|lower}}</p>
+    <p style="flex-basis:16%;">{{i.region|lower}}</p>
+    <p style="flex-basis:16%;">{{i.lang|lower}}</p>
+    <p style="flex-basis:16%;">{% for e in i.interests.all %}{{e|lower}} | {% endfor %}</p>
+  </div>
+  {% endfor %}
+
+</div>
+</div>
+
+
+</div>
+</div>
+<script src="{% static 'js/dispatch.js' %}"></script>
+{% endblock %}

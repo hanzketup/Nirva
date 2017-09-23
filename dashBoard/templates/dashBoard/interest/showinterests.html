@@ -1,0 +1,26 @@
+{% extends 'dashBoard/base.html' %}
+{% block base-content %}
+
+<div class="home-wrap">
+
+<div class="home-content">
+  <h1>view/edit Profile</h1>
+<form method="post" target="" class="row-list">
+  {% csrf_token %}
+  <input name="pk" style="display:none" value="{{interest.pk}}"></input>
+
+  <div class="row">
+    <p style="flex-basis:10%;" class="required">Name (100)</p>
+    <input name="name" type="text" style="flex-basis:90%;" value="{{interest.name}}" required></input>
+  </div>
+
+  <div class="submit-row">
+    <p>Make sure that all &nbsp<b>required</b>&nbsp rows are filled and under max length ( ) before submitting</p>
+    <a onclick="goToPrompt('/interests/{{interest.pk}}/remove', 'Really delete?')" class="row-btn">Remove</a>
+    <button>Submit</button>
+  </div>
+
+</form>
+</div>
+</div>
+{% endblock %}

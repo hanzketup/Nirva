@@ -1,0 +1,90 @@
+{% extends 'dashBoard/base.html' %}
+{% block base-content %}
+{% load staticfiles %}
+<div class="home-wrap">
+
+<div class="home-content">
+  <h1>view/edit Group</h1>
+<form method="post" target="" class="row-list">
+  {% csrf_token %}
+  <input name="pk" style="display:none" value="{{group.pk}}"></input>
+
+  <div class="row">
+    <p style="flex-basis:10%;">Name (100)</p>
+    <input type="text" style="flex-basis:90%;" value="{{group.name}}" readonly></input>
+    <small class="row-legend">Generated from village + id</small>
+  </div>
+
+  <div class="row">
+    <p style="flex-basis:10%;">Address (60)</p>
+    <input name="address" type="text" style="flex-basis:90%;" value="{{group.address}}"></input>
+  </div>
+
+  <div class="row">
+    <p style="flex-basis:10%;" class="required">Village (60)</p>
+    <input name="village" type="text" style="flex-basis:90%;" value="{{group.village}}" required></input>
+    <small class="row-legend">use '-' if not applicable</small>
+  </div>
+
+  <div class="row">
+    <p style="flex-basis:10%;">District (60)</p>
+    <input name="district" type="text" style="flex-basis:90%;" value="{{group.district}}"></input>
+  </div>
+
+  <div class="row">
+    <p style="flex-basis:10%;">Region (60)</p>
+    <input name="region" type="text" style="flex-basis:90%;" value="{{group.region}}"></input>
+  </div>
+
+  <div class="row">
+    <p style="flex-basis:10%;">Contact (link)</p>
+    <a  href="/profiles/{{group.contact.first.pk}}" style="flex-basis:90%;">{{group.contact.first}}</a>
+  </div>
+
+  <div class="submit-row">
+    <p>Make sure that all &nbsp<b>required</b>&nbsp rows are filled and under max length ( ) before submitting</p>
+    <a onclick="goToPrompt('/groups/{{group.pk}}/remove', 'Really delete?')" class="row-btn">Remove</a>
+    <button>Submit</button>
+  </div>
+
+</form>
+
+<div class="selector">
+
+  <div class="title-row">
+    <h1>Select Contact</h1>
+    <p><span id="selected-counter">0</span>&nbsp of 1 User selected</p>
+    <a class="title-button" id="savesel">Save selection</a>
+  </div>
+
+<div class="filter list-item">
+  <p style="flex-basis:4%;"><input id="checkall" type="checkbox"></input></p>
+  <p style="flex-basis:16%;"><span>Name</span><input id="Name" type="text" placeholder="All"></input></p>
+  <p style="flex-basis:16%;"><span>Village</span><input id="Village" type="text" placeholder="All"></input></p>
+  <p style="flex-basis:16%;"><span>District</span><input id="District" type="text" placeholder="All"></input></p>
+  <p style="flex-basis:16%;"><span>Region</span><input id="Region" type="text" placeholder="All"></input></p>
+  <p style="flex-basis:16%;"><span>Language</span><input id="Language" type="text" placeholder="All"></input></p>
+  <p style="flex-basis:16%;"><span>interests</span><input id="Interests" type="text" placeholder="All"></input></p>
+</div>
+
+<div class="list">
+
+  {% for i in users %}
+  <div class="list-item selector-item" data-pk="{{i.pk}}" data-name="{{i.first|lower}} {{i.last|lower}}" data-village="{{i.village|lower}}" data-district="{{i.district|lower}}" data-region="{{i.region|lower}}" data-lang="{{i.lang|lower}}" data-interests="{% for e in i.interests.all %}{{e|lower}} | {% endfor %}">
+    <p style="flex-basis:4%;"><input type="checkbox" unchecked class="selector-check" data-pk={{i.pk}}></input></p>
+    <p style="flex-basis:16%;">{{i.first|lower}} {{i.last|lower}}</p>
+    <p style="flex-basis:16%;">{{i.village|lower}}</p>
+    <p style="flex-basis:16%;">{{i.district|lower}}</p>
+    <p style="flex-basis:16%;">{{i.region|lower}}</p>
+    <p style="flex-basis:16%;">{{i.lang|lower}}</p>
+    <p style="flex-basis:16%;">{% for e in i.interests.all %}{{e|lower}} | {% endfor %}</p>
+  </div>
+  {% endfor %}
+
+</div>
+</div>
+
+</div>
+</div>
+<script src="{% static 'js/filter.js' %}"></script>
+{% endblock %}

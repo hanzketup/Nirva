@@ -1,10 +1,10 @@
 {% extends 'dashBoard/base.html' %}
 {% block base-content %}
-
+{% load staticfiles %}
 <div class="home-wrap">
 
 <div class="home-content">
-  <h1>view/edit Profile</h1>
+  <h1>view/edit Member</h1>
 <form method="post" target="" class="row-list">
   {% csrf_token %}
   {% for i in profile %}
@@ -13,106 +13,108 @@
 
   <div class="row">
     <p style="flex-basis:10%;" class="required">First Name (60)</p>
-    <input name="first" style="flex-basis:90%;" value="{{i.first}}" required></input>
+    <input name="first" type="text" style="flex-basis:90%;" value="{{i.first}}" required></input>
   </div>
 
   <div class="row">
     <p style="flex-basis:10%;" class="required">Last Name (60)</p>
-    <input name="last" style="flex-basis:90%;" value="{{i.last}}" required></input>
+    <input name="last" type="text" style="flex-basis:90%;" value="{{i.last}}" required></input>
   </div>
 
   <div class="row">
-    <p style="flex-basis:10%;" class="required">Number (30)</p>
-    <input name="nr" style="flex-basis:90%;" value="{{i.nr}}" required></input>
+    <p style="flex-basis:10%;" class="required">Cell Number (30)</p>
+    <input name="nr" type="text" style="flex-basis:90%;" value="{{i.nr}}" required></input>
   </div>
 
   <div class="row">
     <p style="flex-basis:10%;" class="required">Language (5)</p>
-    <input name="lang" style="flex-basis:90%;" value="{{i.lang}}" required></input>
+    <input name="lang" type="text" style="flex-basis:90%;" value="{{i.lang}}" required></input>
   </div>
 
   <div class="row">
     <p style="flex-basis:10%;">Village (60)</p>
-    <input name="village" style="flex-basis:90%;" value="{{i.village}}"></input>
+    <input name="village" type="text" style="flex-basis:90%;" value="{{i.village}}"></input>
   </div>
 
   <div class="row">
     <p style="flex-basis:10%;">District (60)</p>
-    <input name="district" style="flex-basis:90%;" value="{{i.district}}"></input>
+    <input name="district" type="text" style="flex-basis:90%;" value="{{i.district}}"></input>
   </div>
 
   <div class="row">
     <p style="flex-basis:10%;">Region (60)</p>
-    <input name="region" style="flex-basis:90%;" value="{{i.region}}"></input>
+    <input name="region" type="text" style="flex-basis:90%;" value="{{i.region}}"></input>
   </div>
 
   <div class="row">
     <p style="flex-basis:10%;">GPS Latitude (10)</p>
-    <input name="gps_lat" style="flex-basis:90%;" value="{{i.gps_lat}}"></input>
+    <input name="gps_lat" type="text" style="flex-basis:90%;" value="{{i.gps_lat}}"></input>
   </div>
 
   <div class="row">
     <p style="flex-basis:10%;">GPS Longitude (10)</p>
-    <input name="gps_long"  style="flex-basis:90%;" value="{{i.gps_long}}"></input>
+    <input name="gps_long" type="text"  style="flex-basis:90%;" value="{{i.gps_long}}"></input>
   </div>
+
+  <input name="group" id="groupField" style="display:none"></input>
+  <input name="inter" id="interField" style="display:none"></input>
 
   <div class="submit-row">
     <p>Make sure that all &nbsp<b>required</b>&nbsp rows are filled and under max length ( ) before submitting</p>
     <button>Submit</button>
   </div>
-  {% empty %} {# if no object is passed in, render an empty form #}
-  
-    <div class="row">
-      <p style="flex-basis:10%;" class="required">First Name (60)</p>
-      <input name="first" style="flex-basis:90%;" value="{{i.first}}" required></input>
-    </div>
-
-    <div class="row">
-      <p style="flex-basis:10%;" class="required">Last Name (60)</p>
-      <input name="last" style="flex-basis:90%;" value="{{i.last}}" required></input>
-    </div>
-
-    <div class="row">
-      <p style="flex-basis:10%;" class="required">Number (30)</p>
-      <input name="nr" style="flex-basis:90%;" value="{{i.nr}}" required></input>
-    </div>
-
-    <div class="row">
-      <p style="flex-basis:10%;" class="required">Language (5)</p>
-      <input name="lang" style="flex-basis:90%;" value="{{i.lang}}" required></input>
-    </div>
-
-    <div class="row">
-      <p style="flex-basis:10%;">Village (60)</p>
-      <input name="village" style="flex-basis:90%;" value="{{i.village}}"></input>
-    </div>
-
-    <div class="row">
-      <p style="flex-basis:10%;">District (60)</p>
-      <input name="district" style="flex-basis:90%;" value="{{i.district}}"></input>
-    </div>
-
-    <div class="row">
-      <p style="flex-basis:10%;">Region (60)</p>
-      <input name="region" style="flex-basis:90%;" value="{{i.region}}"></input>
-    </div>
-
-    <div class="row">
-      <p style="flex-basis:10%;">GPS Latitude (10)</p>
-      <input name="gps_lat" style="flex-basis:90%;" value="{{i.gps_lat}}"></input>
-    </div>
-
-    <div class="row">
-      <p style="flex-basis:10%;">GPS Longitude (10)</p>
-      <input name="gps_long"  style="flex-basis:90%;" value="{{i.gps_long}}"></input>
-    </div>
-
-    <div class="submit-row">
-      <p>Make sure that all &nbsp<b>required</b>&nbsp rows are filled and under max length ( ) before submitting</p>
-      <button>Submit</button>
-    </div>
   {% endfor %}
 </form>
+
+  <div class="selector group-selector">
+    <div class="title-row">
+      <h1>Select Group</h1>
+      <a class="title-button" id="group-toggle">Hide</a>
+    </div>
+  <div class="filter group-filter list-item">
+    <p style="flex-basis:4%;"><input id="group-checkall" type="checkbox"></input></p>
+    <p style="flex-basis:46%;"><span>Name</span><input id="group-Name" type="text" placeholder="All"></input></p>
+    <p style="flex-basis:15%;"><span>District</span><input id="group-District" type="text" placeholder="All"></input></p>
+    <p style="flex-basis:15%;"><span>Region</span><input id="group-Region" type="text" placeholder="All"></input></p>
+    <p style="flex-basis:20%;"><span>Contact</span><input id="group-Contact" type="text" placeholder="All"></input></p>
+
+  </div>
+  <div class="list">
+    {% for i in group %}
+    <div class="list-item group-selector-item" data-pk="{{i.pk}}" data-name="{{i.name|lower}}" data-district="{{i.district|lower}}" data-region="{{i.region|lower}}" data-contact="{{i.contact.first|lower}}">
+      <p style="flex-basis:4%;"><input type="checkbox" unchecked class="group-selector-check" data-pk={{i.pk}}></input></p>
+      <p style="flex-basis:46%;">{{i.name}}</p>
+      <p style="flex-basis:15%;">{{i.district}}</p>
+      <p style="flex-basis:15%;">{{i.region}}</p>
+      <p style="flex-basis:20%;">{{i.contact.first}}</p>
+    </div>
+    {% endfor %}
+  </div>
+  </div>
+
+  <div class="selector inter-selector">
+    <div class="title-row">
+      <h1>Select Interests</h1>
+      <a class="title-button" id="inter-toggle">Hide</a>
+    </div>
+  <div class="filter inter-filter list-item">
+    <p style="flex-basis:4%;"><input id="inter-checkall" type="checkbox"></input></p>
+    <p style="flex-basis:80%;"><span>Name</span><input id="inter-Name" type="text" placeholder="All"></input></p>
+    <p style="flex-basis:16%;"><span>Members</span><input id="inter-Members" type="text" placeholder="All"></input></p>
+  </div>
+  <div class="list">
+    {% for i in inter %}
+    <div class="list-item inter-selector-item" data-pk="{{i.pk}}" data-name="{{i.name|lower}}" data-members="{{i.members|lower}}">
+      <p style="flex-basis:4%;"><input type="checkbox" unchecked class="inter-selector-check" data-pk={{i.pk}}></input></p>
+      <p style="flex-basis:80%;">{{i.name|lower}}</p>
+      <p style="flex-basis:16%;">{{i.members|lower}}</p>
+    </div>
+    {% endfor %}
+  </div>
+  </div>
+
 </div>
 </div>
+<script src="{% static 'js/group-filter.js' %}"></script>
+<script src="{% static 'js/inter-filter.js' %}"></script>
 {% endblock %}

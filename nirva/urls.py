@@ -19,6 +19,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('dashBoard.urls')),
-    url(r'^handler', include('smsHandler.urls')),
+    url(r'^handler/', include('smsHandler.urls')),
 
 ]

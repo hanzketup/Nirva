@@ -1,16 +1,29 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.shortcuts import render, HttpResponse
-from .smsClass import newSms
-from .smsFunc import *
+from .smsClass import Newsms, Newmock
+from .sorter import *
 
-def smsIn(request):  #Handles incomming texts from /handler
+
+def smsIn(request):  # Handles incoming texts from /handler
 
     sender = request.GET.get('msisdn', None)
     text = request.GET.get('text', None)
 
     if sender is not None and text is not None:
-        sms = newSms(sender, text)
-        smsSorter(sms)
+        sms = Newsms(sender, text)
+        primary_sorter(sms)
         return HttpResponse(status=200)
     return HttpResponse(status=400)
+
+
+def mockIn(request):  # Handles mock messages from /mock
+
+    sender = request.GET.get('num', None)
+    text = request.GET.get('text', None)
+
+    if sender is not None and text is not None:
+        sms = Newmock(sender, text)
+        return primary_sorter(sms)
+
+    return HttpResponse("error")

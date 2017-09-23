@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-class smsLogger(models.Model):
+class Log(models.Model):
 
     number = models.CharField(max_length=60)
     msg = models.CharField(max_length=500)

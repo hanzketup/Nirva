@@ -18,21 +18,21 @@ class Profile(models.Model):
     district = models.CharField(blank=True, max_length=60)
     region = models.CharField(blank=True, max_length=60)
 
-    interest = models.ManyToManyField('Interest', blank=True)
+    interests = models.ManyToManyField('Interest', blank=True)
 
     def __str__(self):
-        return 'User: ' + self.first + ' : ' + self.nr
+        return self.first + ' ' + self.last + ' : ' + self.nr
 
 
 class Group(models.Model):
     name = models.CharField(max_length=100, editable=False)
 
-    contact = models.OneToOneField(Profile)
+    contact = models.ManyToManyField('Profile', blank=True)
 
-    address = models.CharField(max_length=60)
+    address = models.CharField(max_length=60, blank=True)
     village = models.CharField(max_length=60)
-    district = models.CharField(max_length=60)
-    region = models.CharField(max_length=60)
+    district = models.CharField(max_length=60, blank=True)
+    region = models.CharField(max_length=60, blank=True)
 
     def __str__(self):
         return self.name

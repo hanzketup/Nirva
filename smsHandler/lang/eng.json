@@ -1,6 +1,10 @@
 {
 
   "nu":"Number not in user database",
-  "nf":"Command not found"
+  "cnf":"Command not found, please check your spelling",
+
+  "inr":"Invalid response  to offer",
+
+  "tail":". Respond {} ({}) before {}."
 
 }

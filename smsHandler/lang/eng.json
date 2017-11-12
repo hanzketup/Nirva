@@ -1,10 +1,16 @@
 {
 
-  "nu":"Number not in user database",
-  "cnf":"Command not found, please check your spelling",
+  "tail":". Respond {} ({}) before {}.",
+  "confirm":"Your order has been confirmed. To cancel your order, respond '*c {}'.",
 
-  "inr":"Invalid response  to offer",
+  "nu":"Number not in user database!",
+  "cnf":"Command not found, please check your spelling. For help type *help",
+  "nv":"No value given, please try again with a value.",
+  "inr":"Invalid response  to offer!",
+  "nact":"The offer is not active / has expired.",
 
-  "tail":". Respond {} ({}) before {}."
+  "au":"Answer updated.",
+  "arm":"Your answer has been removed!",
+  "info":"Hi! You are a part of Nirva, and you will regularly receive offers from this number. Offers are answered by responding with the unique code together with the quantity you'd like"
 
 }

@@ -25,7 +25,7 @@ SECRET_KEY = 'ogrii$y5$k6mp)nsb#!y%=gk@)3mwkp*5jxv9+j3rr-ow!(cft'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['nirva.co','*']
+ALLOWED_HOSTS = ['nirva.co', '127.0.0.1']
 
 
 
@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'dashBoard',
     'smsHandler',
     'userGroup',
-    'reports',
 ]
 
 MIDDLEWARE = [

@@ -20,7 +20,7 @@ class Newsms():
     def __init__(self, sender, message):
 
         self.sender = sender
-        self.message = message
+        self.message = message.lower()
         self.kw = (re.search(r'^(\S+)', message)).group(0)
 
         try:
@@ -31,14 +31,21 @@ class Newsms():
             self.is_user = False
 
     def respond(self, msg):
-        r = dispatch(self.nr, msg)
+        r = dispatch(self.sender, msg)
+        print('response sent to {}'.format(self.sender))
         self.log(msg, r)
 
     def log(self, message, response):
+
+        name = ''
+
+        if self.is_user:
+            name = self.user.first + self.user.last
+
         log = Log(number=self.sender,
                   msg=self.message,
                   resp_msg=message,
-                  name=self.user.first + self.user.last,
+                  name=name,
                   api_resp=response,
                   )
         log.save()
@@ -48,7 +55,7 @@ class Newmock():
     def __init__(self, sender, message):
 
         self.sender = sender
-        self.message = message
+        self.message = message.lower()
         self.kw = (re.search(r'^(\S+)', message)).group(0)
 
         try:

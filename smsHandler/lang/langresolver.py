@@ -9,12 +9,22 @@ __location__ = os.path.realpath(
 
 Lang code reference:
 
+-- format strings --
+tail = string that generates the tail of every offer message
+confirm = string that generates a confirmation for an 'order'
+
+-- errors --
 nu = not user (user not in db)
 cnf = not found
-
+nv = no value supplied
 inr = invalid response
+nact = offer is not active
 
-tail = string that generates the tail of every offer message
+-- misc --
+au = answer updated, when user has answered the offer ones before
+arm = your answer has been removed
+
+info = show some basic usage and commands
 
 """
 
@@ -34,3 +44,7 @@ def generate_tail(code, unit, time):  # Generate the tail of the message (respon
     time = time.date()
     s = msg('tail')
     return s.format(code, unit, time)
+
+def generate_confirm(code):
+    s = msg('confirm')
+    return s.format(code)

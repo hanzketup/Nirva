@@ -12,7 +12,7 @@ def primary_sorter(sms):  #handle and sort valid requests
     codes = [x.code for x in q]
     if sms.is_user:
         kw = sms.kw
-        if kw[0] == '#':
+        if kw[0] == '*':
             return commandsorter(sms)
 
         if any(kw in s for s in codes):

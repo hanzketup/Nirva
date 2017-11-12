@@ -16,3 +16,12 @@ class Log(models.Model):
 
     def __str__(self):
         return self.name + ' : ' + self.number
+
+
+class Eventlog(models.Model):
+
+    name = models.CharField(max_length=400)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name

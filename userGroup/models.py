@@ -19,6 +19,7 @@ class Profile(models.Model):
     region = models.CharField(blank=True, max_length=60)
 
     interests = models.ManyToManyField('Interest', blank=True)
+    groups = models.ManyToManyField('Group', blank=True)
 
     def __str__(self):
         return self.first + ' ' + self.last + ' : ' + self.nr
@@ -45,6 +46,7 @@ class Group(models.Model):
 
 class Interest(models.Model):
     name = models.CharField(max_length=100)
+    members = models.CharField(max_length=10)
 
     def __str__(self):
         return self.name

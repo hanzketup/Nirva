@@ -14,7 +14,7 @@
 {% for i in interests %}
 <a href="/interests/{{i.pk}}" class="list-item">
 <p style="flex-basis:80%;">{{i.name}}</p>
-<p style="flex-basis:20%;"></p>
+<p style="flex-basis:20%;">{{i.members}}</p>
 </a>
 {% empty %}
 <div class="list-item">

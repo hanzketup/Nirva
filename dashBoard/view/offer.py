@@ -12,6 +12,7 @@ Offer = apps.get_model('dashBoard', 'Offer')
 Profile = apps.get_model('userGroup', 'Profile')
 
 from smsHandler.lang.langresolver import generate_tail
+from smsHandler.tasks import dispatch_offers
 
 from ..forms import OfferForm
 
@@ -27,7 +28,7 @@ def lister(request):
         offers = Offer.objects.all()
         dic = {
             "title":"Offers",
-            "offers":offers,
+            "offers":offers[::-1],
 
         }
 
@@ -76,7 +77,6 @@ def get(request, pk):
 
             cd = form.cleaned_data
             act = bol(cd['active'])
-            print(act)
 
             off = Offer.objects.get(pk=cd['pk'])
 
@@ -91,6 +91,8 @@ def get(request, pk):
 
             off.save()
 
+            dispatch_offers.delay()
+
             return redirect('/offers/' + cd['pk'])
 
         else:
@@ -104,11 +106,7 @@ def save(request, pk):
     if request.method == "POST":
 
         try:
-            reqdata = json.loads(request.body)['pk']
-            pklist = []
-
-            for i in reqdata:
-                pklist.append(str(i))
+            pklist = json.loads(request.body.decode("utf-8"))['pk'] # bytestring > unicode > json
 
         except:
             return HttpResponse("Wrong data")
@@ -116,17 +114,9 @@ def save(request, pk):
         r = Offer.objects.get(pk=pk)
         r.selected.remove()
         r.selected.clear()
-
         r.selected.add(*pklist)
 
         return HttpResponse("Users changed!")
-
-def bol(s):
-    if s == '1':
-        return True
-    else:
-        return False
-
 
 def remove(request, pk):
     if request.user.is_authenticated():
@@ -137,3 +127,12 @@ def remove(request, pk):
 
     else:
         redirect('/')
+
+
+# non-standard functions
+
+def bol(s):
+    if s == '1':
+        return True
+    else:
+        return False

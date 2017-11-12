@@ -13,7 +13,7 @@
 <p style="flex-basis:15%;">Time Received</p>
 </div>
 {% for i in logs %}
-<a href="/offers/{{i.pk}}" class="list-item">
+<a class="list-item">
 <p style="flex-basis:15%;">{{i.number}}</p>
 <p style="flex-basis:50%;">{{i.msg}}</p>
 <p style="flex-basis:20%;">{{i.name}}</p>
@@ -21,8 +21,8 @@
 </a>
 {% empty %}
 <a href="#" class="list-item">
-  <p style="flex-basis:15%;">y!</p>
-  <p style="flex-basis:50%;">Nothing to displa</p>
+  <p style="flex-basis:15%;"></p>
+  <p style="flex-basis:50%;">Nothing to display!</p>
   <p style="flex-basis:20%;"></p>
   <p style="flex-basis:15%;"></p>
 </a>

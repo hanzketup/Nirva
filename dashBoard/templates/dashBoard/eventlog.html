@@ -1,0 +1,28 @@
+{% extends 'dashBoard/base.html' %}
+{% block base-content %}
+
+<div class="home-wrap">
+
+<div class="home-content">
+  <h1>Event Logs</h1>
+  <div class="list">
+<div class="list-item list-header">
+<p style="flex-basis:95%;">Name</p>
+<p style="flex-basis:15%;">Time logged</p>
+</div>
+{% for i in logs %}
+<a class="list-item">
+<p style="flex-basis:95%;">{{i.name}}</p>
+<p style="flex-basis:15%;">{{i.created}}</p>
+</a>
+{% empty %}
+<a href="#" class="list-item">
+  <p style="flex-basis:95%;">Nothing to display!</p>
+  <p style="flex-basis:15%;"></p>
+</a>
+{% endfor %}
+</div>
+</div>
+</div>
+
+{% endblock %}

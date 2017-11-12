@@ -1,0 +1,26 @@
+{% extends 'dashBoard/base.html' %}
+{% block base-content %}
+
+<div class="home-wrap">
+<div class="home-content">
+<h1>Change password</h1>
+
+<form method="post" target="" class="row-list">
+  {% csrf_token %}
+
+  <div class="row">
+    <p style="flex-basis:10%;" class="required">new password</p>
+    <input type="password" name="pwd" style="flex-basis:90%;" required></input>
+  </div>
+
+  <div class="submit-row" style="z-index:10;">
+    <p>Make sure that all &nbsp<b>required</b>&nbsp rows are filled and under max length ( ) before submitting</p>
+    <button type="submit">Submit</button>
+  </div>
+</form>
+
+<p>Nirva on {{ver.0}}.{{ver.1}}.{{ver.2}}</p>
+
+</div>
+</div>
+{% endblock %}

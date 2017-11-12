@@ -5,13 +5,20 @@ from django.http import HttpResponse
 from django.apps import apps
 
 Interest = apps.get_model('userGroup', 'Interest')
+Profile = apps.get_model('userGroup', 'Profile')
 
 from ..forms import InterestForm
-
 
 def lister(request):
     if request.user.is_authenticated():
         interests = Interest.objects.all()
+
+        intr = list(Interest.objects.all())  # get members count from users
+        for i in intr:
+            pc = Profile.objects.filter(interests__pk=i.pk).count()
+            print(pc)
+            i.members = pc
+            i.save()
 
         for i in list(interests):  # Clean out non-completed offers before rendering
             if i.name == '':
@@ -81,3 +88,4 @@ def remove(request, pk):
 
     else:
         redirect('/')
+

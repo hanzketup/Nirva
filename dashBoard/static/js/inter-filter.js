@@ -114,3 +114,23 @@ $('#inter-checkall').click(function() { //Check all visable elements adn add to 
     });
     inter_toin();
 });
+
+
+$(document).ready(function reversecheckup() {
+
+let liststr = String($('#interField').data('val'))
+.replace('[','')
+.replace(']','')
+.replace(' ','')
+.split(",");
+
+let listint = liststr.map(x => {return parseInt(x)});
+
+console.log(listint);
+
+listint.forEach(x => {
+$("#inter_" + x).prop('checked', true);
+inter.add(x);
+inter_toin();
+});
+});

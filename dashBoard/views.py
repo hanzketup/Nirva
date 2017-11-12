@@ -2,7 +2,9 @@
 from __future__ import unicode_literals, absolute_import
 
 import json
+import sys
 
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.apps import apps
@@ -15,10 +17,9 @@ interest = apps.get_model('userGroup', 'interest')
 
 DashUser = apps.get_model('dashBoard', 'DashUser')
 Offer = apps.get_model('dashBoard', 'Offer')
-DashUser = apps.get_model('dashBoard', 'DashUser')
 
-Report = apps.get_model('reports', 'report')
 Log = apps.get_model('smsHandler', 'Log')
+Eventlog = apps.get_model('smsHandler', 'Eventlog')
 
 
 def Home(request):
@@ -36,7 +37,7 @@ def Home(request):
         dic = {
             'title': 'Home',
             'user': request.user,
-            'offers': offers,
+            'offers': offers[::-1],
 
         }
         return render(request, 'dashBoard/home.html', dic)
@@ -77,6 +78,23 @@ def logoutV(request):
     return redirect('/login')
 
 
+def settings(request):
+    if request.user.is_authenticated():
+        if request.method == 'GET':
+            dic = {
+                'title': 'Settings',
+                'ver': sys.version_info,
+            }
+            return render(request, 'dashBoard/settings.html', dic)
+
+        if request.method == 'POST':
+            u = User.objects.get(pk=request.user.pk)
+            u.set_password(request.POST.get('pwd'))
+            u.save()
+
+            return redirect('/')
+
+
 def dispatch(request):
     if request.user.is_authenticated():
         if request.method == 'GET':
@@ -90,9 +108,11 @@ def dispatch(request):
 
         if request.method == 'POST':
             try:
-                reqdata = json.loads(request.body)
+                reqdata = json.loads(request.body.decode("UTF-8"))
                 msg = reqdata['msg']
                 numlist = []
+
+                print(reqdata['pk'])
 
                 for i in reqdata['pk']:
                     r = Profile.objects.get(pk=str(i)).nr
@@ -101,7 +121,6 @@ def dispatch(request):
             except:
                 return HttpResponse("Something went wrong, message failed")
 
-            print(numlist)
             dispatcher.mass(numlist, msg)
             return HttpResponse("Message sent!")
 
@@ -112,15 +131,33 @@ def log(request):
 
         dic = {
             'title': 'Logger',
-            'logs':logs,
+            'logs': logs[::-1],
         }
         return render(request, 'dashBoard/dispatcher/log.html', dic)
 
 
 def mock(request):
     if request.user.is_authenticated():
-
         dic = {
             'title': 'Mock',
         }
         return render(request, 'dashBoard/mock.html', dic)
+
+
+def events(request):
+    if request.user.is_authenticated():
+        logs = Eventlog.objects.all()
+
+        dic = {
+            'title': 'Event Logger',
+            'logs': logs[::-1],
+        }
+        return render(request, 'dashBoard/eventlog.html', dic)
+
+
+def help(request):
+    if request.user.is_authenticated():
+        dic = {
+            'title': 'Help',
+        }
+        return render(request, 'dashBoard/help.html', dic)

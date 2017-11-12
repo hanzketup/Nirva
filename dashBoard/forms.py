@@ -18,6 +18,9 @@ class ProfileForm(forms.Form):
     district = forms.CharField(max_length=60, required=False)
     region = forms.CharField(max_length=60, required=False)
 
+    group = forms.CharField(max_length=60, required=False)
+    inter = forms.CharField(max_length=60, required=False)
+
 
 class OfferForm(forms.Form):
 

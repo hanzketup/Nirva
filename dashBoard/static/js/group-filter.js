@@ -103,3 +103,24 @@ $('#group-checkall').click(function() { //Check all visable elements adn add to 
     });
   group_toin();
 });
+
+
+setTimeout(x => {$(document).ready(function reversecheckup() { //checkboxes of previously selected items
+
+console.log($('#groupField').val())
+let liststr = String($('#groupField').data('val'))
+.replace('[','')
+.replace(']','')
+.split(",");
+
+console.log(liststr);
+
+let listint = liststr.map(x => {return parseInt(x)});
+
+listint.forEach(x => {
+$("#group_" + x).prop('checked', true);
+group.add(x);
+group_toin();
+});
+});
+},10);

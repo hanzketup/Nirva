@@ -53,14 +53,31 @@ def get(request, pk):
             inter = interest.objects.all()
 
             q = Profile.objects.filter(pk=pk)
+
+            groups_checked = []
+            inters_checked = []
+
+            for e in q:
+                for i in e.groups.all():
+                    groups_checked.append(int(i.pk))
+
+                for i in e.interests.all():
+                    inters_checked.append(int(i.pk))
+
             dic = {
                 'title': 'User Profile',
                 'profile': q,
 
-                'group':group,
-                'inter':inter,
+                'group': group,
+                'inter': inter,
+
+                'selgroup': str(groups_checked),
+                'selinters': str(inters_checked),
 
             }
+
+            print(inters_checked)
+
             return render(request, 'dashBoard/profile/showprofile.html', dic)
         else:
             return redirect('/login')
@@ -72,7 +89,7 @@ def get(request, pk):
         if form.is_valid():
 
             cd = form.cleaned_data
-            print(cd)
+            print(cd['group'][1:-1].split(','))
 
             prof = Profile.objects.get(pk=cd['pk'])
 
@@ -86,11 +103,20 @@ def get(request, pk):
             prof.district = cd['district']
             prof.region = cd['region']
 
+            prof.interests.clear()  # Clear manytomany field and add new ones passed in.
+            for i in cd['inter'].replace('[', '').replace(']', '').split(','):
+                if i != '' and i != 'null':
+                    prof.interests.add(i)
+
+            prof.groups.clear()  # Clear manytomany field and add new ones passed in.
+            for i in cd['group'].replace('[', '').replace(']', '').split(','):
+                if i != '' and i != 'null':
+                    prof.groups.add(i)
+
             prof.save()
             return redirect('/profiles/' + cd['pk'])
 
         else:
-            print('bad')
             return redirect('/')
 
 

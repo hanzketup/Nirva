@@ -24,6 +24,7 @@
   <div class="row">
     <p style="flex-basis:10%;" class="required">Cell Number (30)</p>
     <input name="nr" type="text" style="flex-basis:90%;" value="{{i.nr}}" required></input>
+    <small class="row-legend">No spaces, No special characters (+, -, /). Include the country code!</small>
   </div>
 
   <div class="row">
@@ -56,11 +57,12 @@
     <input name="gps_long" type="text"  style="flex-basis:90%;" value="{{i.gps_long}}"></input>
   </div>
 
-  <input name="group" id="groupField" style="display:none"></input>
-  <input name="inter" id="interField" style="display:none"></input>
+  <input name="group" id="groupField" style="display:none;" autocomplete="off" data-val="{{selgroup}}"></input>
+  <input name="inter" id="interField" style="display:none;" autocomplete="off" data-val="{{selinters}}"></input>
 
   <div class="submit-row">
     <p>Make sure that all &nbsp<b>required</b>&nbsp rows are filled and under max length ( ) before submitting</p>
+    <a onclick="goToPrompt('/profiles/{{i.pk}}/remove', 'Really delete?')" class="row-btn">Remove</a>
     <button>Submit</button>
   </div>
   {% endfor %}
@@ -82,7 +84,7 @@
   <div class="list">
     {% for i in group %}
     <div class="list-item group-selector-item" data-pk="{{i.pk}}" data-name="{{i.name|lower}}" data-district="{{i.district|lower}}" data-region="{{i.region|lower}}" data-contact="{{i.contact.first|lower}}">
-      <p style="flex-basis:4%;"><input type="checkbox" unchecked class="group-selector-check" data-pk={{i.pk}}></input></p>
+      <p style="flex-basis:4%;"><input id="group_{{i.pk}}" type="checkbox" unchecked class="group-selector-check" data-pk={{i.pk}}></input></p>
       <p style="flex-basis:46%;">{{i.name}}</p>
       <p style="flex-basis:15%;">{{i.district}}</p>
       <p style="flex-basis:15%;">{{i.region}}</p>
@@ -105,7 +107,7 @@
   <div class="list">
     {% for i in inter %}
     <div class="list-item inter-selector-item" data-pk="{{i.pk}}" data-name="{{i.name|lower}}" data-members="{{i.members|lower}}">
-      <p style="flex-basis:4%;"><input type="checkbox" unchecked class="inter-selector-check" data-pk={{i.pk}}></input></p>
+      <p style="flex-basis:4%;"><input id="inter_{{i.pk}}" type="checkbox" unchecked class="inter-selector-check" data-pk={{i.pk}}></input></p>
       <p style="flex-basis:80%;">{{i.name|lower}}</p>
       <p style="flex-basis:16%;">{{i.members|lower}}</p>
     </div>

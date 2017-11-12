@@ -1,7 +1,6 @@
 $('#ofr-msg') //Counter for message box
   .bind('input propertychange',
     function countmsg() {
-      console.log(this)
       $('#ofr-msg-legend span').text(160 - this.value.length)
       if (this.value.length > 160) {
         $('#ofr-msg-legend span').css('color', 'red')
@@ -38,7 +37,6 @@ $('#ofr-msg') //Counter for message box
       } else {
         users.delete($(this).data('pk'));
       }
-      console.log(users);
       update_counter();
     });
 
@@ -129,7 +127,6 @@ $('#ofr-msg') //Counter for message box
 
     $('#dispatch').click(function() {
 
-          console.log('ech');
           save = fetch('', {
             method: 'POST',
             body: JSON.stringify({
@@ -152,7 +149,6 @@ $('#ofr-msg') //Counter for message box
           save.then(x => {
               x.text().then(x => {
                 alert(x)
-                console.log('y');
               })
             })
           });

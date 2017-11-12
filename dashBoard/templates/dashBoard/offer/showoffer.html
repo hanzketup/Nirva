@@ -77,35 +77,34 @@
 <div class="offer-reports">
 
   <div class="title-row">
-    <h1>Reports</h1>
-    <a class="title-button">Generate report</a>
+    <h1>Report</h1>
   </div>
 
-  <div class="list">
-<div class="list-item list-header">
-  <p style="flex-basis:10%;">ID</p>
-  <p style="flex-basis:50%;">Name</p>
-  <p style="flex-basis:20%;">Date Created</p>
-  <p style="flex-basis:20%;">Answers</p>
-</div>
-{% for i in profile.reports.all %}
-<a href="/reports/{{i.pk}}" class="list-item">
-<p style="flex-basis:10%;">{{i.pk}}</p>
-<p style="flex-basis:50%;">{{i.name}}</p>
-<p style="flex-basis:20%;">{{i.created}}</p>
-<p style="flex-basis:20%;">{{i.answers}}</p>
-</a>
-{% empty %}
-<div class="list-item">
-  <p style="flex-basis:10%;"></p>
-  <p style="flex-basis:50%;">Nothing found!</p>
-  <p style="flex-basis:20%;"></p>
-  <p style="flex-basis:20%;"></p>
-</div>
-{% endfor %}
+  <div class="row-list">
+
+    <div class="row">
+      <p style="flex-basis:10%;">Delivered</p>
+      <input id="report_deliv" type="text" style="flex-basis:40%;"></input>
+      <p style="flex-basis:10%;border-left:none;">Responses</p>
+      <input id="report_resp" type="text" style="flex-basis:40%;"></input>
+    </div>
+
+    <div class="row">
+      <p style="flex-basis:10%;">Response rate (%)</p>
+      <input id="report_rate" type="text" style="flex-basis:40%;"></input>
+      <p style="flex-basis:10%;border-left:none;">Unit total</p>
+      <input id="report_unit" type="text" style="flex-basis:40%;"></input>
+    </div>
+
+    <div class="submit-row" style="z-index:10;">
+      <p></p>
+      <a onclick="report_data({{offer.pk}})" class="row-btn row-btn-y" style="flex-basis:10%">Load Stats</a>
+      <a href="/report/{{offer.pk}}/csv" class="row-btn row-btn-g" style="flex-basis:15%">Download CSV</a>
+    </div>
+
+  </div>
 </div>
 
-</div>
 
 
 <div class="selector">

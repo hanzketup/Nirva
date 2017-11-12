@@ -1,3 +1,4 @@
+
 $('#msg').keypress(function (e) {
   if (e.which == 13) {
     getdata()
@@ -11,12 +12,14 @@ function add_out() {
     '<p class="out">' + $('#msg').val() + '</p>'
   );
   $('#msg').val('');
+  scroll()
 }
 
 function add_in(val) {
   $('.messages').append(
     '<p class="in">' + String(val) + '</p>'
   );
+  scroll()
 }
 
 function getdata() {
@@ -32,4 +35,9 @@ function getdata() {
         add_in(x);
       })
     })
+}
+
+function scroll(){
+  var elem = document.getElementById('msgbox');
+  elem.scrollTop = elem.scrollHeight;
 }

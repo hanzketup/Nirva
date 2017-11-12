@@ -30,8 +30,6 @@ class Offer(models.Model):
     expiry_in = models.CharField(max_length=10, blank=True, default=10)
     expiry = models.DateTimeField(blank=True, null=True)
 
-    reports = models.ManyToManyField('reports.Report', blank=True)
-
     selected = models.ManyToManyField('userGroup.Profile',
                                       blank=True, related_name='selected')  # users selected in ui, but not alerted
     alerted = models.ManyToManyField('userGroup.Profile',
@@ -55,4 +53,4 @@ class Answer(models.Model):
     value = models.CharField(max_length=100)
 
     def __str__(self):
-        return str(self.user)
+        return str(self.user.first().first) + str(self.user.first().last)

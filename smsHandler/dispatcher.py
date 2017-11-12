@@ -1,4 +1,4 @@
-import requests
+import requests, json
 
 
 def dispatch(num, msg):
@@ -6,8 +6,9 @@ def dispatch(num, msg):
                       data={"to": num,
                             "from": "46769436405",
                             "text": msg,
-                            "api_key": "76e3575b",
-                            "api_secret": "2ca2ac5f9a6520ff", }, timeout=5)
+                            "api_key": json.load(open('secret.json'))["nexmo-key"],
+                            "api_secret": json.load(open('secret.json'))["nexmo-secret"],
+                            }, timeout=5)
     return r.text
 
 
@@ -19,6 +20,7 @@ def mass(nums, msg):
                    data={"to": i,
                          "from": "46769436405",
                          "text": msg,
-                         "api_key": "76e3575b",
-                         "api_secret": "2ca2ac5f9a6520ff", }, timeout=5)
+                         "api_key": json.load(open('secret.json'))["nexmo-key"],
+                         "api_secret": json.load(open('secret.json'))["nexmo-secret"],
+                         }, timeout=5)
         print(r.text)
